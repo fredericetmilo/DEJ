@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats du calcul</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Résultats de ton calcul de DEJ</h1>
+
+        <div class="result-card">
+            <h2>🧍 Informations personnelles</h2>
+            <p><strong>Sexe :</strong> {{ sexe }}</p>
+            <p><strong>TMB :</strong> {{ tmb }} kcal/jour</p>
+            <p><strong>NAP (niveau d’activité) :</strong> {{ nap }}</p>
+
+            <h2>🏋️ Dépense énergétique liée au sport</h2>
+            <p><strong>Dépense moyenne quotidienne :</strong> {{ depense_sportive }} kcal/jour</p>
+            <p><em>(calculée à partir de la moyenne hebdomadaire des sports sélectionnés)</em></p>
+
+            <hr>
+
+            <h2>🔥 DEJ total</h2>
+            <p>Ton métabolisme de base (TMB) multiplié par ton niveau d’activité (NAP), additionné à ta dépense sportive moyenne quotidienne, donne :</p>
+
+            <div class="dej-box">
+                <h1>{{ dej }} kcal/jour</h1>
+                <p class="subtitle">C’est ton total estimé de dépenses énergétiques journalières.</p>
+            </div>
+
+            <h3>💡 Interprétation rapide</h3>
+            <ul>
+                <li>🔹 <strong>Pour maintien du poids :</strong> consomme environ {{ dej|int }} kcal/jour.</li>
+                <li>🔹 <strong>Pour prise de masse :</strong> ajoute environ +300 à +500 kcal/jour.</li>
+                <li>🔹 <strong>Pour perte de poids :</strong> retire environ -300 à -500 kcal/jour.</li>
+            </ul>
+        </div>
+
+        <a href="/" class="btn-back">← Revenir au calculateur</a>
+    </div>
+</body>
+</html>

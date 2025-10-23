@@ -1,0 +1,116 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 30px 40px;
+    max-width: 600px;
+    width: 100%;
+}
+
+h1, h2, h3 {
+    text-align: center;
+    color: #222;
+}
+
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.sport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.result-card {
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 16px;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
+}
+
+.btn-back:hover {
+    background: #0056b3;
+}
+
+.result-card {
+    background: #fafafa;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.dej-box {
+    text-align: center;
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.dej-box h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.dej-box .subtitle {
+    margin-top: 8px;
+    font-size: 1rem;
+    opacity: 0.9;
+}
