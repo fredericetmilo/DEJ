@@ -87,6 +87,10 @@ def result():
     duree2 = float(request.form['duree2']) if request.form['duree2'] else 0
     sport3 = request.form['sport3']
     duree3 = float(request.form['duree3']) if request.form['duree3'] else 0
+    sport4 = request.form['sport4']
+    duree4 = float(request.form['duree4']) if request.form['duree4'] else 0
+    sport5 = request.form['sport5']
+    duree5 = float(request.form['duree5']) if request.form['duree5'] else 0
 
     # ------------------------------
     # CALCULS
@@ -117,7 +121,9 @@ def result():
     depense_sportive_totale = (
         met_sport.get(sport1, 0) * poids * duree1 +
         met_sport.get(sport2, 0) * poids * duree2 +
-        met_sport.get(sport3, 0) * poids * duree3
+        met_sport.get(sport3, 0) * poids * duree3 +
+        met_sport.get(sport4, 0) * poids * duree4 +
+        met_sport.get(sport5, 0) * poids * duree5
     )
     depense_sportive = depense_sportive_totale / 7
 
