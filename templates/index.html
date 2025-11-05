@@ -11,8 +11,7 @@
 <body>
     <div class="container">
         <h1>💪 Calculateur de Dépense Énergétique Journalière</h1>
-        <form action="/result" method="POST" class="form-card">
-
+        <form action="{{ url_for('result') }}" method="POST" enctype="application/x-www-form-urlencoded">
             <!-- Données personnelles -->
             <h2>🧍 Informations personnelles</h2>
 
@@ -84,4 +83,5 @@
 
 </body>
 </html>
+
 
