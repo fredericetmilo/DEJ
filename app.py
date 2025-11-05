@@ -73,74 +73,73 @@ def index():
 def result():
     """Récupère les données du formulaire et calcule la DEJ"""
 
-    # --- Données de base ---
-    sexe = request.form['sexe']
-    age = float(request.form['age'])
-    taille = float(request.form['taille'])
-    poids = float(request.form['poids'])
-    activite = request.form['activite']
+    try:
+        # --- Données de base (sécurisées) ---
+        sexe = request.form.get('sexe', '').strip()
+        age = float(request.form.get('age', 0) or 0)
+        taille = float(request.form.get('taille', 0) or 0)
+        poids = float(request.form.get('poids', 0) or 0)
+        activite = request.form.get('activite', '').strip()
 
-    # --- Sélection des sports (jusqu’à 3) ---
-    sport1 = request.form['sport1']
-    duree1 = float(request.form['duree1']) if request.form['duree1'] else 0
-    sport2 = request.form['sport2']
-    duree2 = float(request.form['duree2']) if request.form['duree2'] else 0
-    sport3 = request.form['sport3']
-    duree3 = float(request.form['duree3']) if request.form['duree3'] else 0
-    sport4 = request.form['sport4']
-    duree4 = float(request.form['duree4']) if request.form['duree4'] else 0
-    sport5 = request.form['sport5']
-    duree5 = float(request.form['duree5']) if request.form['duree5'] else 0
+        # --- Sélection des sports (jusqu’à 5) ---
+        sports = []
+        for i in range(1, 6):
+            sport = request.form.get(f'sport{i}', '')
+            duree = float(request.form.get(f'duree{i}', 0) or 0)
+            sports.append((sport, duree))
 
-    # ------------------------------
-    # CALCULS
-    # ------------------------------
+        # Vérification des champs obligatoires
+        if not sexe or not age or not taille or not poids or not activite:
+            return "❌ Formulaire incomplet : merci de remplir toutes les informations.", 400
 
-    import math
+        # ------------------------------
+        # CALCULS
+        # ------------------------------
 
-    # 1️⃣ TMB (formule allométrique de Black et al., 1996)
-    if sexe == "Homme":
-        facteur = 1.083
-    else:
-        facteur = 0.963
+        # TMB (formule allométrique de Black et al., 1996)
+        if sexe == "Homme":
+            facteur = 1.083
+        else:
+            facteur = 0.963
 
-    tmb = facteur * (poids ** 0.48) * ((taille / 100) ** 0.50) * (age ** -0.13) * (1000 / 4.1855)
+        tmb = facteur * (poids ** 0.48) * ((taille / 100) ** 0.50) * (age ** -0.13) * (1000 / 4.1855)
 
-    # 2️⃣ Niveau d’activité (NAP)
-    nap_dict = {
-        "Sédentaire": 1.2,
-        "Peu actif": 1.375,
-        "Actif": 1.55,
-        "Très actif": 1.725,
-        "Extrêmement actif": 1.9
-    }
-    nap = nap_dict.get(activite, 1.55)
+        # NAP (niveau d’activité)
+        nap_dict = {
+            "Sédentaire": 1.2,
+            "Peu actif": 1.375,
+            "Actif": 1.55,
+            "Très actif": 1.725,
+            "Extrêmement actif": 1.9
+        }
+        nap = nap_dict.get(activite, 1.55)
 
-    # 3️⃣ Dépense liée au sport (basée sur les MET)
-    # Formule : MET × Poids (kg) × Durée (h/semaine) ÷ 7 jours
-    depense_sportive_totale = (
-        met_sport.get(sport1, 0) * poids * duree1 +
-        met_sport.get(sport2, 0) * poids * duree2 +
-        met_sport.get(sport3, 0) * poids * duree3 +
-        met_sport.get(sport4, 0) * poids * duree4 +
-        met_sport.get(sport5, 0) * poids * duree5
-    )
-    depense_sportive = depense_sportive_totale / 7
+        # Dépense sportive
+        depense_sportive_totale = sum(
+            met_sport.get(sport, 0) * poids * duree for sport, duree in sports
+        )
+        depense_sportive = depense_sportive_totale / 7
 
-    # 4️⃣ DEJ total
-    dej = (tmb * nap) + depense_sportive
+        # DEJ total
+        dej = (tmb * nap) + depense_sportive
 
-    # ------------------------------
-    # ENVOI DES RÉSULTATS
-    # ------------------------------
-    return render_template(
-        'result.html',
-        sexe=sexe,
-        tmb=round(tmb, 1),
-        nap=nap,
-        depense_sportive=round(depense_sportive, 1),
-        dej=round(dej, 1)
-    )
+        # ------------------------------
+        # ENVOI DES RÉSULTATS
+        # ------------------------------
+        return render_template(
+            'result.html',
+            sexe=sexe,
+            tmb=round(tmb, 1),
+            nap=nap,
+            depense_sportive=round(depense_sportive, 1),
+            dej=round(dej, 1)
+        )
+
+    except Exception as e:
+        print("❌ Erreur :", e)
+        return f"❌ Erreur lors du traitement : {e}", 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
